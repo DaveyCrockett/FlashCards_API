@@ -6,5 +6,4 @@ from django.db import models
 class FlashCard(models.Model):
     term = models.CharField(max_length=50)
     definition = models.CharField(max_length=300)
-    collection_id = models.IntegerField()
-    flash_card_id = models.IntegerField()
+    collection_id = models.CharField(max_length=50)
