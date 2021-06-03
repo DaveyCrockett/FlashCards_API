@@ -56,3 +56,8 @@ class FlashCardDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_200_OK)
+
+    def delete(self, request, collection_id, id):
+        flash_card = self.get_object_two(collection_id, id)
+        flash_card.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
