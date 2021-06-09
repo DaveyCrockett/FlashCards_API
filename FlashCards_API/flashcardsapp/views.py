@@ -36,20 +36,30 @@ class FlashCardDetail(APIView):
         serializer = FlashCardSerializer(flash_card, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
-        serializer = FlashCardSerializer(data=request.data)
+    def collection_info(self, collection_id):
+        try:
+            return FlashCard.objects.filter(pk=collection_id).first()
+        except FlashCard.DoesNotExist:
+            raise Http404
+
+    def post(self, request, collection_id):
+        col_info = self.collection_info(collection_id)
+        serializer = FlashCardSerializer(col_info, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_object_two(self, id, collection_id):
+
+class FlashCardDetail2(APIView):
+
+    def get_object_two(self, collection_id, id):
         try:
             return FlashCard.objects.get(collection_id=collection_id, pk=id)
         except FlashCard.DoesNotExist:
             raise Http404
 
-    def put(self, request, id, collection_id):
+    def put(self, request, collection_id, id):
         flash_card = self.get_object_two(collection_id, id)
         serializer = FlashCardSerializer(flash_card, data=request.data)
         if serializer.is_valid():

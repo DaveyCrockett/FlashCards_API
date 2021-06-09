@@ -5,4 +5,4 @@ from .models import FlashCard
 class FlashCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = FlashCard
-        fields = ['id', 'term', 'definition', 'collection_id']
+        fields = ['id', 'term', 'definition', 'collection_id', 'collection_title']
